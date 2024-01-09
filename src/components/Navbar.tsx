@@ -24,7 +24,7 @@ const Navbar = () => {
           <div className="flex flex-row">
             <NavbarList />
           </div>
-          <div className="flex flex-row ml-auto items-center gap-5">
+          <div className="flex flex-row ml-auto items-center gap-2">
             {user ? (
               <div className="hidden md:flex items-center">
                 <Link

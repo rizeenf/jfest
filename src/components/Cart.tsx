@@ -14,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button, buttonVariants } from "./ui/button";
 import { Separator } from "./ui/separator";
+import { cn } from "@/lib/utils";
 
 const Cart = () => {
   const cart = 0;
@@ -22,7 +23,7 @@ const Cart = () => {
   return (
     <Sheet>
       <SheetTrigger className="group flex flex-row justify-center items-center gap-1">
-        <ShoppingCart className="h-5 w-5 flex-shrink-0 group-hover:opacity-80" />
+        <ShoppingCart className="ml-4 h-5 w-5 flex-shrink-0 group-hover:opacity-80" />
         <span className="text-xs group-hover:opacity-80">{cart}</span>
       </SheetTrigger>
       <SheetContent>
@@ -72,12 +73,10 @@ const Cart = () => {
                 className="object-contain flex-shrink-0 opacity-60"
               />
             </div>
-            <span className="text-sm text-muted-foreground">
-              Your cart is empty
-            </span>
+            <span className="text-muted-foreground">Your cart is empty</span>
             <Link
               href="products"
-              className={buttonVariants({ variant: "link" })}
+              className={cn(buttonVariants({ variant: "link" }), "text-xs")}
             >
               Add items to your cart
             </Link>
