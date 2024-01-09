@@ -1,8 +1,9 @@
-import React from "react";
 import { Button } from "./ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { PRODUCT_CATEGORY } from "@/config";
 import Image from "next/image";
+import { useRef } from "react";
+import { useOnClickOutside } from "@/hooks/useOnclickOutside";
 
 type Category = typeof PRODUCT_CATEGORY;
 
@@ -11,6 +12,7 @@ type NavbarProps = {
   activeIndex: number | null;
   handleClick: () => void;
   idx: number;
+  handleOutsideClick: () => void;
 };
 
 const NavbarItem = ({
@@ -18,9 +20,13 @@ const NavbarItem = ({
   activeIndex,
   handleClick,
   idx,
+  handleOutsideClick,
 }: NavbarProps) => {
+  const navRef = useRef<HTMLDivElement | null>(null);
+  useOnClickOutside(navRef, handleOutsideClick);
+
   return (
-    <div className="flex">
+    <div ref={navRef} className="flex">
       <div className="relative flex items-center ">
         <Button variant={"link"} className="text-white" onClick={handleClick}>
           {product.name}
@@ -32,7 +38,7 @@ const NavbarItem = ({
         </Button>
       </div>
       {activeIndex == idx ? (
-        <div className="absolute top-full  inset-x-0 px-10 bg-black bg-opacity-60 text-white">
+        <div className="absolute top-full  inset-x-0 px-10 bg-black bg-opacity-80 text-white">
           <div className="absolute top-1/2 inset-0" aria-hidden />
           <div className="mx-auto max-w-7xl py-14 flex flex-row gap-5">
             {product.lists.map((item) => (
@@ -47,7 +53,10 @@ const NavbarItem = ({
                     />
                   </div>
                   <span>{item.title}</span>
-                  <span className="text-sm text-muted-foreground">
+                  <span
+                    aria-hidden="true"
+                    className="text-sm text-muted-foreground"
+                  >
                     See details &rarr;
                   </span>
                 </div>

@@ -2,13 +2,17 @@
 
 import { PRODUCT_CATEGORY } from "@/config";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "./ui/button";
 import NavbarItem from "./NavbarItem";
+import { useOnClickOutside } from "@/hooks/useOnclickOutside";
 
 const NavbarList = () => {
   const [activeIndex, setActiveIndex] = useState<null | number>(null);
-  const user = true;
+
+  const handleOutsideClick = () => {
+    setActiveIndex(null);
+  };
 
   return (
     <div className="flex h-full ">
@@ -28,6 +32,7 @@ const NavbarList = () => {
             activeIndex={activeIndex}
             handleClick={handleClick}
             idx={idx}
+            handleOutsideClick={handleOutsideClick}
           />
         );
       })}

@@ -29,7 +29,7 @@ const Home = () => {
       <Image
         alt="Background image"
         src={"/images/background.jpg"}
-        className="-z-10 filter blur-[3px] object-cover"
+        className="-z-10 filter blur-[3px] object-cover opacity-90 contrast-150"
         fill
       />
       <WidthWrapper className="py-20">
