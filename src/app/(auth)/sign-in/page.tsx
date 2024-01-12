@@ -8,12 +8,18 @@ import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 
-const SignUp = () => {
+const SignIn = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const isSeller = searchParams.get("as") === "seller";
+  const origin = searchParams.get("origin");
+
   const {
     register,
     handleSubmit,
@@ -22,45 +28,45 @@ const SignUp = () => {
     resolver: zodResolver(AuthSchema),
   });
 
-  // const { data } = trpc.anyRoute.useQuery();
-  // console.log(data);
+  const handleConAsBuyer = () => {
+    router.replace("/sign-in", undefined);
+  };
 
-  const router = useRouter();
+  const handleConAsSeller = () => {
+    router.push("?as=seller");
+  };
 
-  const { mutate, isLoading } = trpc.auth.createUserPayload.useMutation({
-    onError: (err) => {
-      if (err.data?.code === "CONFLICT") {
-        toast.error("This email already registered. Please sign in instead.");
+  const { mutate: signIn, isLoading } = trpc.auth.signInUser.useMutation({
+    onSuccess: () => {
+      toast.success("Sign in successfully");
 
+      if (origin) {
+        router.push(`/${origin}`);
+        return;
+      }
+      if (isSeller) {
+        router.push("/sell");
         return;
       }
 
-      if (err instanceof ZodError) {
-        toast.error(err.issues[0].message);
-
-        return;
-      }
-
-      toast.error("Something went wrong, please try again.");
+      router.push("/");
+      router.refresh();
     },
-
-    onSuccess: ({ sentToEmail }) => {
-      toast.success(
-        "Registration successful! Redirecting to the verification page..."
-      );
-
-      router.push(`/verify-email?to=${sentToEmail}`);
+    onError: ({ data }) => {
+      if (data?.code == "UNAUTHORIZED") {
+        toast.error("Invalid email or password");
+      }
     },
   });
 
   const onSubmit = ({ email, password }: TAuthSchema) => {
-    mutate({ email, password });
+    signIn({ email, password });
   };
 
   return (
     <div className="relative container pt-20 flex flex-col justify-center items-center">
       <div className="mx-auto flex flex-col justify-center gap-3 w-full sm:w-[350px]">
-        <div className="flex flex-col items-center gap-3 text-center">
+        <div className="flex flex-col items-center justify-center gap-3 text-center">
           <Image
             src={"/logo/myjfest.svg"}
             width={50}
@@ -70,18 +76,18 @@ const SignUp = () => {
             priority={false}
           />
           <h1 className="text-xl text-center font-semibold">
-            Create an account
+            Sign in to your {isSeller ? "seller" : ""} account
           </h1>
-          <span className="text-xs text-muted-foreground ml-4 -mt-5">
-            Already have an account?
+          <span className="text-xs text-center text-muted-foreground ml-5 -mt-5">
+            Don&apos;t have an account?
             <Link
-              href={"/sign-in"}
+              href={"/sign-up"}
               className={cn(
                 buttonVariants({ variant: "link" }),
                 "-ml-3 text-xs"
               )}
             >
-              Sign in &rarr;
+              Sign up &rarr;
             </Link>
           </span>
         </div>
@@ -120,13 +126,44 @@ const SignUp = () => {
                   </span>
                 )}
               </div>
-              <Button type="submit">Sign up</Button>
+              <Button type="submit">Sign in</Button>
             </div>
           </form>
+
+          <div className="relative">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 flex items-center"
+            >
+              <span className="w-full border-t" />
+            </div>
+            <div className="text-xs relative flex justify-center uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                or
+              </span>
+            </div>
+          </div>
+          {isSeller ? (
+            <Button
+              variant={"secondary"}
+              onClick={handleConAsBuyer}
+              disabled={isLoading}
+            >
+              Continue as customer
+            </Button>
+          ) : (
+            <Button
+              variant={"secondary"}
+              onClick={handleConAsSeller}
+              disabled={isLoading}
+            >
+              Continue as seller
+            </Button>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default SignUp;
+export default SignIn;

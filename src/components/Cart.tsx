@@ -22,7 +22,7 @@ const Cart = () => {
 
   return (
     <Sheet>
-      <SheetTrigger className="group flex flex-row justify-center items-center gap-1">
+      <SheetTrigger className="group hidden sm:flex flex-row justify-center items-center gap-1">
         <ShoppingCart className="ml-4 h-5 w-5 flex-shrink-0 group-hover:opacity-80" />
         <span className="text-xs group-hover:opacity-80">{cart}</span>
       </SheetTrigger>
@@ -67,7 +67,7 @@ const Cart = () => {
           <div className="flex h-full flex-col items-center justify-center space-y-1">
             <div className="relative mb-4 h-56 w-56 text-muted-foreground">
               <Image
-                src={"/empty-cart2.png"}
+                src={"/empty-cart.png"}
                 fill
                 alt="Empty cart"
                 className="object-contain flex-shrink-0 opacity-60"

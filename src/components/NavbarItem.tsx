@@ -27,8 +27,8 @@ const NavbarItem = ({
 
   return (
     <div ref={navRef} className="flex">
-      <div className="relative flex items-center ">
-        <Button variant={"link"} className="text-white" onClick={handleClick}>
+      <div className="relative hidden  sm:flex items-center ">
+        <Button variant={"ghost"} className="text-white" onClick={handleClick}>
           {product.name}
           {activeIndex !== idx ? (
             <ChevronDown size={14} />
@@ -38,9 +38,9 @@ const NavbarItem = ({
         </Button>
       </div>
       {activeIndex == idx ? (
-        <div className="absolute top-full  inset-x-0 px-10 bg-black bg-opacity-80 text-white">
+        <div className="absolute top-full  inset-x-0 px-10 bg-white rounded-sm rounded-tl-none ">
           <div className="absolute top-1/2 inset-0" aria-hidden />
-          <div className="mx-auto max-w-7xl py-14 flex flex-row gap-5">
+          <div className="mx-auto max-w-7xl py-14 flex sm:flex-row gap-5">
             {product.lists.map((item) => (
               <div className="relative group" key={item.title}>
                 <div className="p-2 border rounded border-white flex flex-col group-hover:opacity-90 text-muted shadow-lg">
