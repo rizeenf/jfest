@@ -10,6 +10,7 @@ import {
 } from "./ui/dropdown-menu";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { User as UserIcon } from "lucide-react";
 
 const MyAccountNav = ({ user }: { user: User }) => {
   const { signOut } = useAuth();
@@ -17,8 +18,9 @@ const MyAccountNav = ({ user }: { user: User }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={"ghost"} size={"sm"} className="relative">
-          My account
+        <Button variant={"ghost"} size={"sm"} className="relative gap-2">
+          <UserIcon size={16} />
+          Account
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52 bg-white">

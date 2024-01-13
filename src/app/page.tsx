@@ -1,3 +1,4 @@
+import ProductReel from "@/components/ProductReel";
 import WidthWrapper from "@/components/WidthWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -59,6 +60,12 @@ const Home = () => {
       </WidthWrapper>
       <section className="border-t bg-gray-50 border-gray-100 flex-grow">
         <WidthWrapper className="py-20">
+          <ProductReel
+            query={{ limit: 4, sort: "asc" }}
+            title="Most Populer"
+            href="/products"
+            subtitle="Popular by me"
+          />
           <div className="flex flex-col gap-10 sm:flex-row text-center items-center justify-center">
             {perks.map((item) => (
               <div key={item.name} className="flex items-center gap-2 flex-col">
