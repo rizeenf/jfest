@@ -18,7 +18,7 @@ const Navbar = async () => {
       <WidthWrapper className="h-12 ">
         <header className="flex flex-row  gap-5 text-white h-full drop-shadow border-b border-rose-500">
           <Link href="../" className="self-center">
-            <div className="relative bg-white flex-shrink-0 h-11 w-11">
+            <div className="relative bg-white flex-shrink-0 h-11 w-11 rounded">
               <Image
                 src={"/logo/myjfest.svg"}
                 alt="MyJFest logo"
@@ -34,9 +34,9 @@ const Navbar = async () => {
             {user ? null : (
               <div className="hidden sm:flex items-center">
                 <Link
-                  href="sign-in"
+                  href="/sign-in"
                   className={buttonVariants({
-                    variant: "link",
+                    variant: "ghost",
                     className: "text-white",
                   })}
                 >
@@ -52,9 +52,9 @@ const Navbar = async () => {
             {user ? null : (
               <div className="hidden sm:flex items-center">
                 <Link
-                  href="sign-up"
+                  href="/sign-up"
                   className={buttonVariants({
-                    variant: "link",
+                    variant: "ghost",
                     className: "text-white",
                   })}
                 >

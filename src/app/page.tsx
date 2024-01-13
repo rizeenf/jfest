@@ -62,9 +62,9 @@ const Home = () => {
         <WidthWrapper className="py-20">
           <ProductReel
             query={{ limit: 4, sort: "asc" }}
-            title="Most Populer"
+            title="Most Popular"
             href="/products"
-            subtitle="Popular by me"
+            subtitle="Popular by most search"
           />
           <div className="flex flex-col gap-10 sm:flex-row text-center items-center justify-center">
             {perks.map((item) => (

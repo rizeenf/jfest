@@ -1,12 +1,11 @@
 "use client";
-import { Product } from "@/payload-types";
-import { useEffect, useState } from "react";
-import { Skeleton } from "./ui/skeleton";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { PRODUCT_CATEGORY } from "@/config";
-import CurrencyFormat from "react-currency-format";
+import { cn, formatPrice } from "@/lib/utils";
+import { Product } from "@/payload-types";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import ImageSlide from "./ImageSlide";
+import { Skeleton } from "./ui/skeleton";
 
 type ProductListProps = {
   product: Product | null;
@@ -49,14 +48,7 @@ const ProductList = ({ product, index }: ProductListProps) => {
           </h3>
           <p className="mt-1 text-sm text-gray-500">{label}</p>
           <p className="mt-1 font-medium text-sm text-gray-900">
-            <CurrencyFormat
-              prefix="Rp "
-              thousandSeparator={true}
-              fixedDecimalScale={true}
-              decimalScale={2}
-              displayType="text"
-              value={product.price}
-            />
+            {formatPrice(product.price)}
           </p>
         </div>
       </Link>
