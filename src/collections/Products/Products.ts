@@ -1,7 +1,16 @@
+import { Product } from "../../payload-types";
 import { PRODUCT_CATEGORY } from "../../config";
 import { TrainFrontTunnel } from "lucide-react";
+import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { CollectionConfig } from "payload/types";
 import { number } from "zod";
+import { stripe } from "../../lib/stripe";
+
+const addUser: BeforeChangeHook<Product> = ({ data, req }) => {
+  const { user } = req;
+
+  return { ...data, user: user.id };
+};
 
 export const Products: CollectionConfig = {
   slug: "products",
@@ -10,6 +19,47 @@ export const Products: CollectionConfig = {
   },
   access: {},
 
+  hooks: {
+    beforeChange: [
+      addUser,
+      async (args) => {
+        if (args.operation === "create") {
+          const data = args.data as Product;
+
+          const createdProd = await stripe.products.create({
+            name: data.name,
+            default_price_data: {
+              currency: "IDR",
+              unit_amount: Math.round(data.price * 100),
+            },
+          });
+
+          const updated: Product = {
+            ...data,
+            stripeId: createdProd.id,
+            priceId: createdProd.default_price as string,
+          };
+
+          return updated;
+        } else if (args.operation === "update") {
+          const data = args.data as Product;
+
+          const updatedProd = await stripe.products.update(data.stripeId!, {
+            name: data.name,
+            default_price: data.priceId!,
+          });
+
+          const updated: Product = {
+            ...data,
+            stripeId: updatedProd.id,
+            priceId: updatedProd.default_price as string,
+          };
+
+          return updated;
+        }
+      },
+    ],
+  },
   fields: [
     {
       name: "user",

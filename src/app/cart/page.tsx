@@ -1,20 +1,40 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { PRODUCT_CATEGORY } from "@/config";
 import { useCart } from "@/hooks/useCart";
 import { cn, formatPrice } from "@/lib/utils";
-import { Check, X } from "lucide-react";
+import { trpc } from "@/trpc/client";
+import { Check, Loader2, Shell, Shield, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Page = () => {
   const { items, removeItem } = useCart();
+  const router = useRouter();
+
+  const { mutate: CreateCheckoutSession, isLoading } =
+    trpc.payment.createSession.useMutation({
+      onSuccess: ({ url }) => {
+        if (url) router.push(url);
+      },
+    });
+
+  const productIds = items.map(({ product }) => product.id);
 
   const [isMounted, setIsMounted] = useState<boolean>(false);
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const cartTotal = items.reduce(
+    (total, { product }) => total + product.price,
+    0
+  );
+
+  const fee = 9999;
 
   return (
     <div className="bg-white">
@@ -59,7 +79,7 @@ const Page = () => {
               })}
             >
               {isMounted &&
-                items.map(({ product }) => {
+                items.map(({ product }, idx) => {
                   const label = PRODUCT_CATEGORY.find(
                     (item) => item.label === product.category
                   )?.name;
@@ -67,7 +87,7 @@ const Page = () => {
                   const { image } = product.images[0];
 
                   return (
-                    <li key={product.id} className="flex py-6 sm:py-10">
+                    <li key={idx} className="flex py-6 sm:py-10">
                       <div className="flex-shrink-0">
                         <div className="relative w-32 h-32">
                           {typeof image !== "string" && image.url ? (
@@ -117,16 +137,79 @@ const Page = () => {
                           </div>
                         </div>
 
-                        <p className="mt-4 flex items-center space-x-2 text-sm text-gray-700">
+                        <div className="mt-4 flex items-center space-x-2 text-sm text-gray-700">
                           <Check className="h-3 w-3 flex-shrink-0 text-green-500" />
-                          <span className="text-sm">Instant delivery</span>
-                        </p>
+                          <span className="text-xs text-muted-foreground">
+                            Instant delivery
+                          </span>
+                          <Separator orientation="vertical" />
+                          <Shield className="h-3 w-3 flex-shrink-0 text-gray-300" />
+                          <span className="text-xs text-muted-foreground">
+                            30 Days Guarantee
+                          </span>
+                        </div>
                       </div>
                     </li>
                   );
                 })}
             </ul>
           </div>
+
+          <section className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
+            <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
+            <div className="mt-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-gray-600">Subtotal</p>
+                <p className="text-sm font-medium text-gray-900">
+                  {isMounted ? (
+                    formatPrice(cartTotal)
+                  ) : (
+                    <Shell className="animate-spin text-rose-200 h-5 w-5" />
+                  )}
+                </p>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <span className="text-muted-foreground ">
+                    Flat transaction fee
+                  </span>
+                </div>
+                <div className="text-sm font-medium text-gray-900">
+                  {isMounted ? (
+                    formatPrice(fee)
+                  ) : (
+                    <Shell className="animate-spin text-rose-200 h-5 w-5" />
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <span className="text-base font-medium text-gray-900">
+                  Order total
+                </span>
+                <span className="text-base font-medium text-gray-900">
+                  {isMounted ? (
+                    formatPrice(cartTotal + fee)
+                  ) : (
+                    <Shell className="animate-spin text-rose-200 h-7 w-7" />
+                  )}
+                </span>
+              </div>
+            </div>
+            <div className="mt-6">
+              <Button
+                disabled={(isMounted && items.length === 0) || isLoading}
+                onClick={() => CreateCheckoutSession({ productIds })}
+                className="w-full"
+                size={"lg"}
+              >
+                {isLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin mr-1" />
+                ) : null}
+                Checkout
+              </Button>
+            </div>
+          </section>
         </div>
       </div>
     </div>

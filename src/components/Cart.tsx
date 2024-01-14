@@ -50,9 +50,9 @@ const Cart = () => {
 
         {totalItem > 0 ? (
           <>
-            <div className="flex w-full flex-col pr-6">
+            <div className="flex w-full flex-col">
               {/* TODO: CART ITEMS */}
-              <ScrollArea className="h-[calc(100svh-190px)]">
+              <ScrollArea className="h-[calc(100svh-190px)] w-full">
                 {items.map(({ product }, idx) => (
                   <CartItem product={product} key={idx} />
                 ))}
@@ -74,6 +74,19 @@ const Cart = () => {
               </div>
               <Separator />
             </div>
+            <SheetFooter>
+              <SheetTrigger asChild>
+                <Link
+                  href={"/cart"}
+                  className={buttonVariants({
+                    variant: "default",
+                    className: "w-full",
+                  })}
+                >
+                  Checkout
+                </Link>
+              </SheetTrigger>
+            </SheetFooter>
           </>
         ) : (
           <div className="flex h-full flex-col items-center justify-center space-y-1">
@@ -94,19 +107,6 @@ const Cart = () => {
             </Link>
           </div>
         )}
-        <SheetFooter>
-          {totalItem > 0 ? (
-            <Link
-              href={"/cart"}
-              className={buttonVariants({
-                variant: "default",
-                className: "w-full",
-              })}
-            >
-              Checkout
-            </Link>
-          ) : null}
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

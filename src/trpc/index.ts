@@ -1,14 +1,16 @@
 import { z } from "zod";
-import { authRouter } from "./auth";
+import { authRouter } from "./authRouter";
 import { publicProcedure, router } from "./trpc";
 import { QueryValidate } from "../lib/validators/query-validator-product";
 import { getPayloadClient } from "../get-payload";
+import { paymentRouter } from "./paymentRouter";
 
 export const appRouter = router({
   // anyRoute: publicProcedure.query(() => {
   //   return "hel";
   // }),
   auth: authRouter,
+  payment: paymentRouter,
 
   getAllProducts: publicProcedure
     .input(

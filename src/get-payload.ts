@@ -9,12 +9,18 @@ dotenv.config({
 });
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.resend.com",
-  secure: true,
-  port: 465,
+  // host: "smtp.resend.com",
+  // secure: true,
+  // port: 465,
+  // auth: {
+  //   user: "resend",
+  //   pass: process.env.RESEND_API_KEY,
+  // },
+  //  ^^ SETUP FOR RESEND API
+  service: "gmail",
   auth: {
-    user: "resend",
-    pass: process.env.RESEND_API_KEY,
+    user: "rize.poke1@gmail.com",
+    pass: "ghdz vrds eljh svoo",
   },
 });
 
@@ -47,8 +53,8 @@ export const getPayloadClient = async ({
       // FOR SENDING AN EMAIL
       email: {
         transport: transporter,
-        fromAddress: "onboarding@resend.dev",
-        fromName: "MyJFest",
+        fromAddress: "rize.poke1@gmail.com",
+        fromName: "MyJFest@support",
       },
       //FOR SENDING AN EMAIL
       secret: process.env.PAYLOAD_SECRET,
