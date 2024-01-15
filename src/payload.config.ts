@@ -1,7 +1,7 @@
 import { webpackBundler } from "@payloadcms/bundler-webpack";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { slateEditor } from "@payloadcms/richtext-slate";
-import dotenv from "dotenv";
+import dotenv, { config } from "dotenv";
 import path from "path";
 import { buildConfig } from "payload/config";
 import { Media } from "./collections/Media";
@@ -23,6 +23,7 @@ export default buildConfig({
   admin: {
     user: "users",
     bundler: webpackBundler(),
+
     meta: {
       titleSuffix: "- MyJfest",
       favicon: "/favicon.ico",

@@ -1,10 +1,8 @@
-import { Product } from "../../payload-types";
-import { PRODUCT_CATEGORY } from "../../config";
-import { TrainFrontTunnel } from "lucide-react";
 import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { CollectionConfig } from "payload/types";
-import { number } from "zod";
+import { PRODUCT_CATEGORY } from "../../config";
 import { stripe } from "../../lib/stripe";
+import { Product } from "../../payload-types";
 
 const addUser: BeforeChangeHook<Product> = ({ data, req }) => {
   const { user } = req;

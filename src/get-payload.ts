@@ -19,8 +19,8 @@ const transporter = nodemailer.createTransport({
   //  ^^ SETUP FOR RESEND API
   service: "gmail",
   auth: {
-    user: "rize.poke1@gmail.com",
-    pass: "ghdz vrds eljh svoo",
+    user: process.env.GMAIL_EMAIL,
+    pass: process.env.GMAIL_PASSCODE,
   },
 });
 
