@@ -1,8 +1,11 @@
-import { BeforeChangeHook } from "payload/dist/collections/config/types";
-import { CollectionConfig } from "payload/types";
+import {
+  AfterChangeHook,
+  BeforeChangeHook,
+} from "payload/dist/collections/config/types";
+import { Access, CollectionConfig } from "payload/types";
 import { PRODUCT_CATEGORY } from "../../config";
 import { stripe } from "../../lib/stripe";
-import { Product } from "../../payload-types";
+import { Product, User } from "../../payload-types";
 
 const addUser: BeforeChangeHook<Product> = ({ data, req }) => {
   const { user } = req;
@@ -10,14 +13,78 @@ const addUser: BeforeChangeHook<Product> = ({ data, req }) => {
   return { ...data, user: user.id };
 };
 
+const syncUser: AfterChangeHook<Product> = async ({ req, doc }) => {
+  const fulluser = await req.payload.findByID({
+    collection: "users",
+    id: req.user.id,
+  });
+
+  if (fulluser && typeof fulluser === "object") {
+    const { products } = fulluser;
+
+    const allId = [
+      ...(products?.map((product) =>
+        typeof product === "object" ? product.id : product
+      ) || []),
+    ];
+
+    const createdProductID = allId.filter(
+      (id, index) => allId.indexOf(id) === index
+    );
+
+    const dataToUpdate = [...createdProductID, doc.id];
+
+    await req.payload.update({
+      collection: "users",
+      id: fulluser.id,
+      data: {
+        products: dataToUpdate,
+      },
+    });
+  }
+};
+
+const isAdminOrOwner =
+  (): Access =>
+  ({ req: { user: _user } }) => {
+    const user = _user as User | undefined;
+
+    if (!user) return false;
+    if (user.role === "admin") return true;
+
+    const userProductIds = (user.products || []).reduce<Array<string>>(
+      (acc, curr) => {
+        if (!curr) return acc;
+
+        if (typeof curr === "string") {
+          acc.push(curr);
+        } else {
+          acc.push(curr.id);
+        }
+        return acc;
+      },
+      []
+    );
+
+    return {
+      id: {
+        in: userProductIds,
+      },
+    };
+  };
+
 export const Products: CollectionConfig = {
   slug: "products",
   admin: {
     useAsTitle: "name",
   },
-  access: {},
-
+  access: {
+    read: isAdminOrOwner(),
+    update: isAdminOrOwner(),
+    delete: isAdminOrOwner(),
+  },
   hooks: {
+    afterChange: [syncUser],
     beforeChange: [
       addUser,
       async (args) => {
