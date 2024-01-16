@@ -99,7 +99,7 @@ var getPayloadClient = function (_a) {
                             email: {
                                 transport: transporter,
                                 fromAddress: "rize.poke1@gmail.com",
-                                fromName: "MyJFest@support",
+                                fromName: "MyJFest",
                             }, 
                             //FOR SENDING AN EMAIL
                             secret: process.env.PAYLOAD_SECRET, local: (initOptions === null || initOptions === void 0 ? void 0 : initOptions.express) ? false : true }, (initOptions || {})));
