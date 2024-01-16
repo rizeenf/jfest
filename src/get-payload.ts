@@ -55,6 +55,7 @@ export const getPayloadClient = async ({
         transport: transporter,
         fromAddress: "rize.poke1@gmail.com",
         fromName: "MyJFest",
+        logMockCredentials: true,
       },
       //FOR SENDING AN EMAIL
       secret: process.env.PAYLOAD_SECRET,

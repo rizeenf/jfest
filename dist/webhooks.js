@@ -39,9 +39,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.stripeWebhookHandler = void 0;
 var stripe_1 = require("./lib/stripe");
 var get_payload_1 = require("./get-payload");
-var resend_1 = require("resend");
+// import { Resend } from "resend";
 var ReceiptEmail_1 = require("./components/emails/ReceiptEmail");
-var resend = new resend_1.Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
 var stripeWebhookHandler = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var webhookRequest, body, signature, event, session, payload, users, user, orders, order, data, err_1;
     var _a, _b;
@@ -63,7 +63,7 @@ var stripeWebhookHandler = function (req, res) { return __awaiter(void 0, void 0
                 if (!((_a = session.metadata) === null || _a === void 0 ? void 0 : _a.userId) || !((_b = session.metadata) === null || _b === void 0 ? void 0 : _b.orderId)) {
                     return [2 /*return*/, res.status(400).send("Webhook Error : No user present in Metadata")];
                 }
-                if (!(event.type === "checkout.session.completed")) return [3 /*break*/, 8];
+                if (!(event.type === "checkout.session.completed")) return [3 /*break*/, 9];
                 return [4 /*yield*/, (0, get_payload_1.getPayloadClient)()];
             case 1:
                 payload = _c.sent();
@@ -107,11 +107,8 @@ var stripeWebhookHandler = function (req, res) { return __awaiter(void 0, void 0
                     })];
             case 4:
                 _c.sent();
-                _c.label = 5;
-            case 5:
-                _c.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, resend.emails.send({
-                        from: "MyJfest <rize.poke1@gmail.com>",
+                return [4 /*yield*/, payload.sendEmail({
+                        from: "rize.poke1@gmail.com",
                         to: [user.email],
                         subject: "Thanks for your order! This is your receipt.",
                         html: (0, ReceiptEmail_1.ReceiptEmailHTML)({
@@ -121,15 +118,42 @@ var stripeWebhookHandler = function (req, res) { return __awaiter(void 0, void 0
                             products: order.products,
                         }),
                     })];
+            case 5:
+                _c.sent();
+                _c.label = 6;
             case 6:
-                data = _c.sent();
-                res.status(200).json({ data: data });
-                return [3 /*break*/, 8];
+                _c.trys.push([6, 8, , 9]);
+                return [4 /*yield*/, payload.sendEmail({
+                        from: "rize.poke1@gmail.com",
+                        to: [user.email],
+                        subject: "Thanks for your order! This is your receipt.",
+                        html: (0, ReceiptEmail_1.ReceiptEmailHTML)({
+                            date: new Date(),
+                            email: user.email,
+                            orderId: session.metadata.orderId,
+                            products: order.products,
+                        }),
+                    })];
             case 7:
+                data = _c.sent();
+                // const data = await resend.emails.send({
+                //   from: "MyJfest <rize.poke1@gmail.com>",
+                //   to: [user.email],
+                //   subject: "Thanks for your order! This is your receipt.",
+                //   html: ReceiptEmailHTML({
+                //     date: new Date(),
+                //     email: user.email,
+                //     orderId: session.metadata.orderId,
+                //     products: order.products as Product[],
+                //   }),
+                // });
+                res.status(200).json({ data: data });
+                return [3 /*break*/, 9];
+            case 8:
                 err_1 = _c.sent();
                 res.status(500).json({ err: err_1 });
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/, res.status(200).send()];
+                return [3 /*break*/, 9];
+            case 9: return [2 /*return*/, res.status(200).send()];
         }
     });
 }); };
