@@ -86,17 +86,17 @@ export const stripeWebhookHandler = async (
       },
     });
 
-    await payload.sendEmail({
-      from: "rize.poke1@gmail.com",
-      to: [user.email],
-      subject: "Thanks for your order! This is your receipt.",
-      html: ReceiptEmailHTML({
-        date: new Date(),
-        email: user.email,
-        orderId: session.metadata.orderId,
-        products: order.products as Product[],
-      }),
-    });
+    // await payload.sendEmail({
+    //   from: "rize.poke1@gmail.com",
+    //   to: [user.email],
+    //   subject: "Thanks for your order! This is your receipt.",
+    //   html: ReceiptEmailHTML({
+    //     date: new Date(),
+    //     email: user.email,
+    //     orderId: session.metadata.orderId,
+    //     products: order.products as Product[],
+    //   }),
+    // });
 
     //Send receipt
 
@@ -113,7 +113,7 @@ export const stripeWebhookHandler = async (
       //   local: init
       // });
       const data = await payload.sendEmail({
-        from: "rize.poke1@gmail.com",
+        from: "MyJfest <rize.poke1@gmail.com>",
         to: [user.email],
         subject: "Thanks for your order! This is your receipt.",
         html: ReceiptEmailHTML({
