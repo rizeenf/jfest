@@ -31,8 +31,10 @@ const SignUp = () => {
   const { mutate, isLoading } = trpc.auth.createUserPayload.useMutation({
     onError: (err) => {
       if (err.data?.code === "CONFLICT") {
-        toast.error("This email already registered. Please sign in instead.");
-
+        toast.error(
+          "This email is already registered. Please sign in instead."
+        );
+        router.push("/sign-in");
         return;
       }
 

@@ -55,9 +55,15 @@ const Home = () => {
               Browse products
             </Link>
             <span className="w-px h-6 bg-rose-600" />
-            <Button variant="link" className="text-white">
+            <Link
+              href="/products"
+              className={cn(
+                buttonVariants({ variant: "link" }),
+                "text-white font-light"
+              )}
+            >
               Our creator &rarr;
-            </Button>
+            </Link>
           </div>
         </section>
       </WidthWrapper>
