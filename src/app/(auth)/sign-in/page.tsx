@@ -2,16 +2,16 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AuthSchema, TAuthSchema } from "@/lib/validators/auth-register-schema";
 import { cn } from "@/lib/utils";
+import { AuthSchema, TAuthSchema } from "@/lib/validators/auth-register-schema";
 import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Shell } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { ZodError } from "zod";
 
 const SignIn = () => {
   const router = useRouter();
@@ -65,7 +65,7 @@ const SignIn = () => {
 
   return (
     <div className="relative container pt-20 flex flex-col justify-center items-center">
-      <div className="mx-auto flex flex-col justify-center gap-3 w-full sm:w-[350px]">
+      <div className="mx-auto flex flex-col justify-center gap-3 w-full sm:w-[350px] animate-in duration-500 fade-in-5">
         <div className="flex flex-col items-center justify-center gap-3 text-center">
           <Image
             src={"/logo/myjfest.svg"}
@@ -126,7 +126,12 @@ const SignIn = () => {
                   </span>
                 )}
               </div>
-              <Button type="submit">Sign in</Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <Shell className="w-3 h-3 animate-spin mr-1" />
+                ) : null}
+                Sign in
+              </Button>
             </div>
           </form>
 

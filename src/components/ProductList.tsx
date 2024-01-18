@@ -37,11 +37,11 @@ const ProductList = ({ product, index }: ProductListProps) => {
     return (
       <Link
         href={`/product/${product.id}`}
-        className={cn("invisible h-full w-full cursor-pointer group/main", {
+        className={cn("invisible h-full w-full cursor-pointer group", {
           "visible animate-in fade-in-5": isVisible,
         })}
       >
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full group-hover:opacity-70">
           <ImageSlide urls={validUrls} />
           <h3 className="mt-4 font-medium text-sm text-gray-700">
             {product.name}

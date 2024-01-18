@@ -39,20 +39,22 @@ const MobileBar = ({ user }: { user: User | null }) => {
                       key={item.title}
                       className="group line-clamp-1 relative text-xs"
                     >
-                      <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                        <Image
-                          fill
-                          src={item.image}
-                          alt="product category image"
-                          className="object-cover object-center"
-                        />
-                      </div>
-                      <Link
-                        href={item.href}
-                        className="mt-3 block font-medium text-gray-900"
-                      >
-                        {item.title}
-                      </Link>
+                      <SheetTrigger asChild>
+                        <Link
+                          href={item.href}
+                          className="mt-3 block font-medium text-gray-900"
+                        >
+                          <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+                            <Image
+                              fill
+                              src={item.image}
+                              alt="product category image"
+                              className="object-cover object-center"
+                            />
+                          </div>
+                          {item.title}
+                        </Link>
+                      </SheetTrigger>
                     </div>
                   ))}
                 </div>
@@ -98,7 +100,9 @@ const MobileBar = ({ user }: { user: User | null }) => {
                   </SheetTrigger>
                 </div>
               ) : (
-                <MyAccountNav user={user} />
+                <SheetTrigger asChild>
+                  <MyAccountNav user={user} />
+                </SheetTrigger>
               )}
             </div>
           </SheetFooter>

@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ZodError } from "zod";
+import { Loader2, Shell } from "lucide-react";
 
 const SignUp = () => {
   const {
@@ -59,7 +60,7 @@ const SignUp = () => {
 
   return (
     <div className="relative container pt-20 flex flex-col justify-center items-center">
-      <div className="mx-auto flex flex-col justify-center gap-3 w-full sm:w-[350px]">
+      <div className="mx-auto flex flex-col justify-center gap-3 w-full sm:w-[350px] animate-in duration-500 fade-in-5">
         <div className="flex flex-col items-center gap-3 text-center">
           <Image
             src={"/logo/myjfest.svg"}
@@ -120,7 +121,12 @@ const SignUp = () => {
                   </span>
                 )}
               </div>
-              <Button type="submit">Sign up</Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <Shell className="w-3 h-3 animate-spin mr-1" />
+                ) : null}
+                Sign up
+              </Button>
             </div>
           </form>
         </div>

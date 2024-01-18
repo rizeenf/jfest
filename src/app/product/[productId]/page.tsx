@@ -5,7 +5,7 @@ import WidthWrapper from "@/components/WidthWrapper";
 import { PRODUCT_CATEGORY } from "@/config";
 import { getPayloadClient } from "@/get-payload";
 import { formatPrice } from "@/lib/utils";
-import { Check, Shield } from "lucide-react";
+import { Check, ChevronRight, Shield } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -66,13 +66,10 @@ const Page = async ({ params }: PageProps) => {
                       {brd.name}
                     </Link>
                     {i !== BRDCRMBS.length - 1 ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                      >
-                        <path d="m9 18 6-6-6-6" />
-                      </svg>
+                      <ChevronRight
+                        size={14}
+                        className="text-muted-foreground"
+                      />
                     ) : null}
                   </div>
                 </li>
@@ -95,7 +92,7 @@ const Page = async ({ params }: PageProps) => {
               </div>
 
               <div className="mt-4 space-y-6">
-                <p className="text-muted-foreground text-base">
+                <p className="text-muted-foreground text-base text-justify">
                   {product.description}
                 </p>
               </div>
@@ -114,7 +111,7 @@ const Page = async ({ params }: PageProps) => {
 
           {/* Product Images */}
 
-          <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
+          <div className="mt-10 lg:col-start-2 lg:row-span-2 lg: lg:mt-0 lg:self-center">
             <div className="aspect-square rounded-lg">
               <ImageSlide urls={valUrl} />
             </div>

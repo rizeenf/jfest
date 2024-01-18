@@ -30,11 +30,11 @@ const Home = () => {
       <Image
         alt="Background image"
         src={"/images/background.jpg"}
-        className="-z-10 filter blur-[3px] object-cover opacity-90 contrast-150"
+        className="-z-10 filter blur-[3px] object-cover opacity-90 contrast-150 animate-in duration-500 fade-in-5"
         fill
       />
       <WidthWrapper className="py-20">
-        <section className="flex flex-col items-center justify-center text-center text-white">
+        <section className="flex flex-col items-center justify-center text-center text-white animate-in duration-500 fade-in-5">
           <h1 className="text-4xl md:text-5xl font-semibold tracking-tight max-w-3xl">
             Discover your nearest
             <span className="text-rose-600 font-bold"> Japan festival</span>,
@@ -48,8 +48,11 @@ const Home = () => {
             locales.
           </span>
           <div className="mt-5 flex flex-row items-center gap-3">
-            <Link href="/" className={cn(buttonVariants(), "text-white")}>
-              Browse trending
+            <Link
+              href="/products"
+              className={cn(buttonVariants(), "text-white")}
+            >
+              Browse products
             </Link>
             <span className="w-px h-6 bg-rose-600" />
             <Button variant="link" className="text-white">

@@ -5,7 +5,7 @@ import { PRODUCT_CATEGORY } from "@/config";
 import { useCart } from "@/hooks/useCart";
 import { cn, formatPrice } from "@/lib/utils";
 import { trpc } from "@/trpc/client";
-import { Check, Loader2, Shell, Shield, X } from "lucide-react";
+import { Check, Shell, Shield, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -210,7 +210,7 @@ const Page = () => {
                 size={"lg"}
               >
                 {isLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin mr-1" />
+                  <Shell className="w-4 h-4 animate-spin mr-1" />
                 ) : null}
                 Checkout
               </Button>
