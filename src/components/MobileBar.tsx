@@ -21,7 +21,7 @@ const MobileBar = ({ user }: { user: User | null }) => {
         </Button>
       </SheetTrigger>
       <SheetContent>
-        <div className="overflow-y-auto overscroll-y-none inset-0 ">
+        <div className="overflow-y-auto overscroll-y-none inset-0">
           <ul className="my-2 h-[calc(100svh-190px)]">
             {PRODUCT_CATEGORY.map((product, idx) => (
               <li key={idx} className="space-y-10 px-2 mt-4">
