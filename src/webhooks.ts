@@ -4,11 +4,11 @@ import { stripe } from "./lib/stripe";
 import type Stripe from "stripe";
 import { getPayloadClient } from "./get-payload";
 import { Product } from "./payload-types";
-// import { Resend } from "resend";
+import { Resend } from "resend";
 import { ReceiptEmailHTML } from "./components/emails/ReceiptEmail";
 import nodemailer from "nodemailer";
 
-// const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const stripeWebhookHandler = async (
   req: express.Request,
@@ -86,45 +86,11 @@ export const stripeWebhookHandler = async (
       },
     });
 
-    // await payload.sendEmail({
-    //   from: "rize.poke1@gmail.com",
-    //   to: [user.email],
-    //   subject: "Thanks for your order! This is your receipt.",
-    //   html: ReceiptEmailHTML({
-    //     date: new Date(),
-    //     email: user.email,
-    //     orderId: session.metadata.orderId,
-    //     products: order.products as Product[],
-    //   }),
-    // });
-
-    //Send receipt
-
     // Send Receipt Email
 
     try {
-      // const data2 = await payload.init({
-      //   email: {
-      //     fromName: "MyJFest",
-      //     fromAddress: "rize.poke1@gmail.com",
-      //     transport: transporter,
-      //   },
-      //   secret: process.env.PAYLOAD_SECRET,
-      //   local: init
-      // });
-      const data = await payload.sendEmail({
-        from: "MyJfest <rize.poke1@gmail.com>",
-        to: [user.email],
-        subject: "Thanks for your order! This is your receipt.",
-        html: ReceiptEmailHTML({
-          date: new Date(),
-          email: user.email,
-          orderId: session.metadata.orderId,
-          products: order.products as Product[],
-        }),
-      });
-
-      // const data = await resend.emails.send({
+      // EMAIL SETUP WITH GMAIL
+      // const data = await payload.sendEmail({
       //   from: "MyJfest <rize.poke1@gmail.com>",
       //   to: [user.email],
       //   subject: "Thanks for your order! This is your receipt.",
@@ -135,6 +101,19 @@ export const stripeWebhookHandler = async (
       //     products: order.products as Product[],
       //   }),
       // });
+
+      //EMAIL SETUP WITH RESEND
+      const data = await resend.emails.send({
+        from: "MyJfest <noreply@rizkin.my.id>",
+        to: [user.email],
+        subject: "Thanks for your order! This is your receipt.",
+        html: ReceiptEmailHTML({
+          date: new Date(),
+          email: user.email,
+          orderId: session.metadata.orderId,
+          products: order.products as Product[],
+        }),
+      });
       res.status(200).json({ data });
       // console.log("email send");
       // res.status(200).json({ success: true });
