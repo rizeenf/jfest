@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { cn, constructMetadata } from "@/lib/utils";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
+import { cn, constructMetadata } from "@/lib/utils";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
-import Footer from "@/components/Footer";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -37,8 +37,8 @@ const Cart = () => {
 
   return (
     <Sheet>
-      <SheetTrigger className="group hidden sm:flex flex-row justify-center items-center gap-1">
-        <ShoppingCart className="ml-4 h-5 w-5 flex-shrink-0 group-hover:opacity-80" />
+      <SheetTrigger className="group flex sm:flex flex-row justify-center items-center gap-1">
+        <ShoppingCart className="h-5 w-5 flex-shrink-0 group-hover:opacity-80" />
         <span className="text-xs group-hover:opacity-80">
           {isMounted ? totalItem : 0}
         </span>

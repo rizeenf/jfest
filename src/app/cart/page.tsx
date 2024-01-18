@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { PRODUCT_CATEGORY } from "@/config";
 import { useCart } from "@/hooks/useCart";
@@ -69,6 +69,12 @@ const Page = () => {
                 <p className="text-sm text-muted-foreground text-center">
                   Whoops! Nothing to show here yet.
                 </p>
+                <Link
+                  href="/products"
+                  className={cn(buttonVariants({ variant: "link" }), "text-xs")}
+                >
+                  Add items to your cart
+                </Link>
               </div>
             ) : null}
 

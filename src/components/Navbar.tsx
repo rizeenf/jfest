@@ -7,6 +7,7 @@ import { buttonVariants } from "./ui/button";
 import { getServerUser } from "@/lib/payload-utils";
 import { cookies } from "next/headers";
 import MyAccountNav from "./MyAccountNav";
+import MobileBar from "./MobileBar";
 
 const Navbar = async () => {
   // const user = true;
@@ -14,16 +15,17 @@ const Navbar = async () => {
   const { user } = await getServerUser(nextCookies);
 
   return (
-    <div className="sticky z-50 top-0 inset-x-0 h-12 bg-rose-600">
+    <div className="sticky z-40 top-0 inset-x-0 h-12 bg-rose-600">
       <WidthWrapper className="h-12 ">
         <header className="flex flex-row  gap-5 text-white h-full drop-shadow border-b border-rose-500">
           <Link href="../" className="self-center">
-            <div className="relative bg-white flex-shrink-0 h-11 w-11 rounded">
+            <div className="relative bg-white flex-shrink-0">
               <Image
                 src={"/logo/myjfest.svg"}
                 alt="MyJFest logo"
-                fill
-                className="p-1"
+                width={200}
+                height={200}
+                className="h-16 w-16 top-full mt-5 p-0.5"
               />
             </div>
           </Link>
@@ -74,6 +76,9 @@ const Navbar = async () => {
             ) : null}
 
             <Cart />
+          </div>
+          <div className="sm:hidden block">
+            <MobileBar user={user} />
           </div>
         </header>
       </WidthWrapper>
