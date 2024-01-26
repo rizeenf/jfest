@@ -177,7 +177,7 @@ export const Products: CollectionConfig = {
       name: "approvedForSale",
       label: "Product status",
       type: "select",
-      defaultValue: "pending",
+      defaultValue: "approved",
       access: {
         create: ({ req }) => req.user.role === "admin",
         read: ({ req }) => req.user.role === "admin",

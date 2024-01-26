@@ -228,7 +228,7 @@ exports.Products = {
             name: "approvedForSale",
             label: "Product status",
             type: "select",
-            defaultValue: "pending",
+            defaultValue: "approved",
             access: {
                 create: function (_a) {
                     var req = _a.req;
