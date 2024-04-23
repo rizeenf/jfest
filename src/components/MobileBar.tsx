@@ -1,3 +1,5 @@
+"use client";
+
 import { PRODUCT_CATEGORY } from "@/config";
 import { cn } from "@/lib/utils";
 import { User } from "@/payload-types";

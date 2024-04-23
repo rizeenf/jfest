@@ -1,3 +1,5 @@
+"use client";
+
 import { PRODUCT_CATEGORY } from "@/config";
 import { useOnClickOutside } from "@/hooks/useOnclickOutside";
 import { ChevronDown, ChevronUp } from "lucide-react";
